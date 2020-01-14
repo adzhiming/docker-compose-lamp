@@ -1,4 +1,4 @@
-FROM httpd 
+FROM httpd:2.4.41 
 RUN groupadd www && useradd -g www -s /sbin/nologin www
 VOLUME /var/www/ 
 VOLUME /usr/local/apache2/logs

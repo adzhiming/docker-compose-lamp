@@ -3,34 +3,36 @@ services:
   apache:
     build: ./apache
     volumes: 
-      - ./apache/www/:/var/www
+      - ./web/:/var/www
       - ./apache/logs/:/usr/local/apache2/logs
     ports:
-      - "8080:80"
+      - "80:80"
     container_name: httpd
     depends_on:
       - php
+      - mysqldb
     networks:
       - default
   php:
     build: ./php
     volumes:
-      - ./apache/www/:/var/www
+      - ./web/:/var/www
     container_name: fpm
     expose:
       - "9000"
     networks: 
       - default
-  mysql: 
+  mysqldb: 
     build: ./mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-    container_name: mysql
+      - MYSQL_USER=${MYSQL_USER}
+    container_name: mysqldb
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - ./mysql/data/:/var/lib/mysql/
-      - ./mysql/logs/:/var/log/mysql/
+      #- ./mysql/logs/:/var/log/mysql/
     networks:
       - default
   redis:
@@ -43,7 +45,7 @@ services:
     networks:
       - default
   mongo:
-    image: mongo:3.6.2
+    image: mongo:3.6.16
     container_name: mongo
     ports:
       - "27017:27017"

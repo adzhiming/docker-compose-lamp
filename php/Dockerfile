@@ -1,4 +1,4 @@
-FROM php:7.2.1-fpm 
+FROM php:7.3.11-fpm 
 RUN groupadd www && useradd -g www -s /sbin/nologin www
 COPY php.ini /usr/local/etc/php/php.ini
 COPY php-fpm.conf /usr/local/etc/php-fpm.conf
